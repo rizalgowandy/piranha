@@ -1,0 +1,14 @@
+[[rules]]
+name = "Match Exception Definition"
+query = """(
+    (exception_definition (identifier) @exception_name) @exception_definition 
+    (#match? @exception_name "Internal")
+)"""
+replace_node = "exception_definition"
+replace = """@exception_definition (
+   rpc.code = "INTERNAL"
+)
+        """
+[[rules.filters]]
+enclosing_node = "(exception_definition) @c_e"
+not_contains = ["(annotation_definition) @ad"]
